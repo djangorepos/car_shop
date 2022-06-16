@@ -3,18 +3,17 @@ from cars.models import Car
 from cart.cart import Cart
 
 
-def car_list(request):
-    products = Car.objects.all()
+def car_list(request, pk=None):
+    context = {}
     cart = Cart(request)
-    number = len(cart)
-    ordered = Car.objects.filter(id__in=cart.get_items())
-    total = cart.get_total_price()
-    return render(request, 'cars/car_list.html', {'products': products,
-                                                  'ordered': ordered,
-                                                  'number': number,
-                                                  'total': total})
+    context['cars'] = Car.objects.all()
+    context['ordered'] = Car.objects.filter(id__in=cart.get_items())
+    context['number'] = len(cart)
+    context['total'] = cart.get_total_price()
 
+    if pk is None:
+        return render(request, 'cars/car_list.html', context)
 
-def car_detail(request, pk):
-    product = Car.objects.get(id=pk)
-    return render(request, 'cars/car_detail.html', {'product': product})
+    else:
+        context['car'] = Car.objects.get(id=pk)
+        return render(request, 'cars/car_detail.html', context)

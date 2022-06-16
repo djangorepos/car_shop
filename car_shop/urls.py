@@ -18,12 +18,12 @@ from django.contrib import admin
 from django.urls import path
 
 from car_shop import settings
-from cars.views import car_list, car_detail
+from cars.views import car_list
 from cart.views import cart_add, cart_remove
 
 urlpatterns = [
     path('', car_list, name='car_list'),
-    path('car/<pk>', car_detail, name='car_detail'),
+    path('car/<pk>', car_list, name='car_detail'),
     path('add/<pk>', cart_add, name='cart_add'),
     path('remove/<pk>', cart_remove, name='cart_remove'),
     path('admin/', admin.site.urls),

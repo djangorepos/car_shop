@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'cars/base.html' %}
+{% block content %}
+<main>
+  <div class="albumpy-5 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card shadow-sm">
+            <img src="{{ car.image.url }}" alt="Car">
+          </div>
+        </div>
+          <div class="col-lg-6">
+            <div class="card-body">
+              <h1 class="card-text">{{ car.make }} {{ car.model }}</h1>
+              <p class="card-text"><strong>Year: </strong>{{ car.year }}</p>
+              <p class="card-text"><strong>Body style: </strong>{{ car.body_style }}</p>
+              <p class="card-text"><strong>Exterior color: </strong>{{ car.exterior_color }}</p>
+              <p class="card-text"><strong>Interior color: </strong>{{ car.interior_color }}</p>
+              <p class="card-text"><strong>Drivetrain: </strong>{{ car.drivetrain }}</p>
+              <p class="card-text"><strong>Fuel type: </strong>{{ car.fuel_type }}</p>
+              <p class="card-text"><strong>Transmission: </strong>{{ car.transmission }}</p>
+              <p class="card-text"><strong>Engine: </strong>{{ car.engine }}</p>
+              <p class="card-text"><strong>Mileage: </strong>{{ car.mileage |floatformat:3 }} mi.</p>
+              <h2 class="card-text">Start price: ${{ car.price }}</h2>
+              {% for feature in car.included_features.all %}
+              <p class="card-text"><strong>{{ feature }}:</strong> (included)</p>
+              {% endfor %}
+              {% for feature in car.extra_features.all %}
+              <p class="card-text"><strong>{{ feature }}:</strong> ${{ feature.price }}</p>
+              {% endfor %}
+              <p class="card-text">{{ car.description }} </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="add_car({{ car.id }})">Add to cart</button>
+                </div>
+                <small class="text-muted">{{ car.date }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<script>
+    function add_car(pk) {
+         $.ajax({
+            method:'POST',
+            url:'/add/'+ pk,
+            data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+            success: function() {
+            console.log('Added to cart');
+            window.location.reload()
+            },
+            });
+    }
 
-</body>
-</html>
+</script>
+</main>
+{% endblock %}

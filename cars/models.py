@@ -3,6 +3,7 @@ from django.db import models
 
 class Feature(models.Model):
     title = models.CharField(max_length=128)
+    price = models.FloatField()
 
     def __str__(self):
         return self.title
@@ -32,7 +33,8 @@ class Car(models.Model):
     mileage = models.FloatField()
     price = models.FloatField()
     description = models.TextField()
-    features = models.ManyToManyField(Feature)
+    included_features = models.ManyToManyField(Feature, related_name='included')
+    extra_features = models.ManyToManyField(Feature, related_name='extra')
     date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
