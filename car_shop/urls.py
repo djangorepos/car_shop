@@ -15,15 +15,17 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
 from car_shop import settings
-from cars.views import CarListView, CarDetailView
+from cars.views import car_list, car_detail
+from cart.views import cart_add, cart_remove
 
 urlpatterns = [
-    path('', CarListView.as_view()),
-    path('car/<pk>', CarDetailView.as_view()),
+    path('', car_list, name='car_list'),
+    path('car/<pk>', car_detail, name='car_detail'),
+    path('add/<pk>', cart_add, name='cart_add'),
+    path('remove/<pk>', cart_remove, name='cart_remove'),
     path('admin/', admin.site.urls),
-    path('cart/', include(('cart.urls', 'cart'), namespace='cart')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

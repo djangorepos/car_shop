@@ -10,12 +10,7 @@
     <title>Album example · Bootstrap v5.2</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/album/">
-
-
-
-
-
-<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -78,15 +73,23 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">About</h4>
-          <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
+          <h4 class="text-white">Your order:</h4>
+          {% for car in ordered %}
+              <h4 style="color:white">{{ car.make }} {{ car.model }} - $ {{ car.price }}</h4>
+              <img src="{{ car.image.url }}" height="100px">
+              <button type="button" class="btn-close btn-close-white" aria-label="Close" onclick="remove_car({{ car.id }})"></button><br>
+          {% endfor %}
+           <h4 class="text-white">Total: $ {{ total }}</h4>
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Contact</h4>
+          <h4 class="text-white">Contacts:</h4>
           <ul class="list-unstyled">
-            <li><a href="#" class="text-white">Follow on Twitter</a></li>
-            <li><a href="#" class="text-white">Like on Facebook</a></li>
-            <li><a href="#" class="text-white">Email me</a></li>
+            <li><a href="#" class="text-white">Instagram</a></li>
+            <li><a href="#" class="text-white">Twitter</a></li>
+            <li><a href="#" class="text-white">Facebook</a></li>
+            <li><a href="#" class="text-white">Email</a></li>
+            <li><a href="#" class="text-white">Telegram</a></li>
+            <li><a href="#" class="text-white">Phone</a></li>
           </ul>
         </div>
       </div>
@@ -99,7 +102,8 @@
         <strong>&nbsp;Cars</strong>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="height: 32px; width: 32px;"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM272 180H316V224C316 235 324.1 244 336 244C347 244 356 235 356 224V180H400C411 180 420 171 420 160C420 148.1 411 140 400 140H356V96C356 84.95 347 76 336 76C324.1 76 316 84.95 316 96V140H272C260.1 140 252 148.1 252 160C252 171 260.1 180 272 180zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" fill="#fff" fill-opacity="1"></path></svg>
+      <strong style="color:white">&nbsp;Cart({{ number }})</strong>
       </button>
     </div>
   </div>
@@ -114,10 +118,21 @@
     <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
   </div>
 </footer>
+<script src="{% static "js/jquery-3.6.0.min.js" %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+<script>
+    function remove_car(pk) {
+         $.ajax({
+            method:'POST',
+            url:'/remove/'+ pk,
+            data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+            success: function() {
+            console.log('Added to cart');
+            window.location.reload()
+            },
+            });
+    }
 
-
-    <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
-
-
-  </body>
+</script>
+</body>
 </html>

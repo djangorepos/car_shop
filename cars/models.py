@@ -37,3 +37,6 @@ class Car(models.Model):
 
     def __str__(self):
         return str(self.make) + ' ' + str(self.model)
+
+    class Meta:
+        ordering = ['date']

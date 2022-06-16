@@ -62,7 +62,13 @@ class Cart(object):
         """
         Подсчет стоимости товаров в корзине.
         """
-        return sum(item['price'] for item in self.cart.values())
+        return sum(float(item['price']) for item in self.cart.values())
+
+    def get_items(self):
+        """
+        Подсчет стоимости товаров в корзине.
+        """
+        return self.cart.keys()
 
     def clear(self):
         # удаление корзины из сессии
