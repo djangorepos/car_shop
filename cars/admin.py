@@ -1,6 +1,16 @@
 from django.contrib import admin
 
-from cars.models import Car, Feature
+from cars.models import Image, Car, Feature
 
-admin.site.register(Car)
+
+class ImageInline(admin.TabularInline):
+    fk_name = 'car'
+    model = Image
+
+
+@admin.register(Car)
+class ProductAdmin(admin.ModelAdmin):
+    inlines = [ImageInline, ]
+
+
 admin.site.register(Feature)

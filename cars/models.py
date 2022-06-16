@@ -16,7 +16,8 @@ class Car(models.Model):
     FUEL_TYPES = [
         ('Gasoline', 'Gasoline'),
         ('Diesel', 'Diesel'),
-        ('Electric', 'Electric')
+        ('Electric', 'Electric'),
+        ('Hybrid', 'Hybrid')
     ]
     image = models.ImageField()
     year = models.IntegerField()
@@ -42,3 +43,8 @@ class Car(models.Model):
 
     class Meta:
         ordering = ['date']
+
+
+class Image(models.Model):
+    image = models.ImageField(upload_to='gallery')
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='images')
