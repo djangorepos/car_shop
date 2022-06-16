@@ -20,7 +20,7 @@ class Car(models.Model):
         ('Hybrid', 'Hybrid')
     ]
     image = models.ImageField()
-    year = models.IntegerField()
+    year = models.DateField()
     make = models.CharField(max_length=128)
     model = models.CharField(max_length=128)
     body_style = models.CharField(max_length=128)

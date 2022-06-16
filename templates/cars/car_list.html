@@ -6,8 +6,9 @@
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Car shop example</h1>
         <p class="lead text-muted">You can filter cars by desired parameters and add to cart.</p>
-        <form action="" method="get">
-           {{ filter.form.as_p }}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
           <button class="btn btn-primary my-2" type="submit">Search</button>
           <a href="/" class="btn btn-secondary my-2">Clear</a>
         </form>
