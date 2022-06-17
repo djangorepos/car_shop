@@ -9,7 +9,7 @@ from cart.cart import Cart
 def car_list(request, pk=None):
     context = {}
     cart = Cart(request)
-    cars = Car.objects.all()
+    cars = Car.objects.filter(ordered=False)
     context['cars'] = cars
     context['ordered'] = Car.objects.filter(id__in=cart.get_items())
     context['number'] = len(cart)
@@ -45,7 +45,7 @@ def car_list(request, pk=None):
 
 
 def car_search(request):
-    cars = Car.objects.all()
+    cars = Car.objects.filter(ordered=False)
 
     if request.GET.get('make') != 'All makes':
         cars = cars.filter(make=request.GET.get('make')).order_by('model')

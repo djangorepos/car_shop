@@ -98,6 +98,7 @@ class Car(models.Model):
     included_features = models.ManyToManyField(Feature, related_name='included')
     extra_features = models.ManyToManyField(Feature, related_name='extra')
     date = models.DateTimeField(auto_now=True)
+    ordered = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.make) + ' ' + str(self.model)
@@ -116,13 +117,17 @@ class OrderedCar(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='ordered_car')
     engine = models.ForeignKey(Engine, on_delete=models.DO_NOTHING, related_name='selected_engine')
     features = models.ManyToManyField(Feature, blank=True, related_name='selected_features')
-    total = models.FloatField()
+    total = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.session_key
 
 
 class Order(models.Model):
-    session_key = models.CharField(max_length=128)
+    number = models.BigIntegerField(default=1)
+    cars = models.ManyToManyField(OrderedCar, blank=True, related_name='ordered_cars')
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     email = models.EmailField()
     phone = PhoneNumberField()
-    total = models.FloatField()
+    total = models.FloatField(default=0)

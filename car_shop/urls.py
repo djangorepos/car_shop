@@ -19,7 +19,7 @@ from django.urls import path
 
 from car_shop import settings
 from cars.views import car_list, car_search
-from cart.views import cart_add, cart_remove, cart_order, cart_engine, cart_features
+from cart.views import cart_add, cart_remove, cart_order, cart_engine, cart_features, cart_contact
 
 urlpatterns = [
     path('', car_list, name='car_list'),
@@ -27,9 +27,10 @@ urlpatterns = [
     path('car/search', car_search, name='car_search'),
     path('add/<pk>', cart_add, name='cart_add'),
     path('remove/<pk>', cart_remove, name='cart_remove'),
-    path('order/', cart_order, name='cart_order'),
     path('cart/engine', cart_engine, name='cart_engine'),
     path('cart/features', cart_features, name='cart_features'),
+    path('order/', cart_order, name='cart_order'),
+    path('order/contacts', cart_contact, name='cart_contacts'),
     path('admin/', admin.site.urls),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

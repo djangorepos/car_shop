@@ -44,13 +44,13 @@
                        </label><br>
                       {% endfor %}
                        <h4 class="card-text">Price: <strong>$<span id="price-{{ car.id }}">{{ car.price }}</span></strong></h4>
+                       <input type="hidden" id="total-input-{{ car.id }}" name="total-price" value="0">
                     </div>
                   </div>
               </div>
            {% endfor %}
         <h3 class="card-text">Total price: <strong>$<span id="total-price">0</span></strong></h3>
-        <input type="hidden" id="total-input" name="total-price" value="0">
-        <button type="submit" class="btn btn-dark">Confirm order!</button>
+        <button type="submit" class="btn btn-dark">Confirm order</button>
         </div>
       </div>
   </form>
@@ -60,7 +60,7 @@ var total = 0
 function total_price(id, total){
     total += parseFloat($(`#price-${id}`).html())
     $("#total-price").html(total)
-    $("#total-input").val(total)
+    $(`#total-input-${id}`).val($(`#price-${id}`).html())
     return total
 }
 
