@@ -1,6 +1,27 @@
 from django.db import models
 
 
+class Engine(models.Model):
+    FUEL_TYPES = [
+        ('Diesel', 'Diesel'),
+        ('Electric', 'Electric'),
+        ('Gasoline', 'Gasoline'),
+        ('Hybrid', 'Hybrid')
+    ]
+
+    title = models.CharField(max_length=128)
+    fuel_type = models.CharField(max_length=128, choices=FUEL_TYPES)
+    displacement = models.FloatField()
+    power = models.FloatField()
+    price = models.FloatField()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('title',)
+
+
 class Feature(models.Model):
     title = models.CharField(max_length=128)
     price = models.FloatField()
@@ -13,24 +34,63 @@ class Feature(models.Model):
 
 
 class Car(models.Model):
-    FUEL_TYPES = [
-        ('Gasoline', 'Gasoline'),
-        ('Diesel', 'Diesel'),
-        ('Electric', 'Electric'),
-        ('Hybrid', 'Hybrid')
+    MAKES = [
+        ('Acura', 'Acura'),
+        ('Audi', 'Audi'),
+        ('BMW', 'BMW'),
+        ('Buick', 'Buick'),
+        ('Cadillac', 'Cadillac'),
+        ('Chevrolet', 'Chevrolet'),
+        ('Chrysler', 'Chrysler'),
+        ('Dodge', 'Dodge'),
+        ('Ford', 'Ford'),
+        ('GMC', 'GMC'),
+        ('Honda', 'Honda'),
+        ('Hyundai', 'Hyundai'),
+        ('INFINITI', 'INFINITI'),
+        ('Jaguar', 'Jaguar'),
+        ('Jeep', 'Jeep'),
+        ('Kia', 'Kia'),
+        ('Land Rover', 'Land Rover'),
+        ('Lexus', 'Lexus'),
+        ('Lincoln', 'Lincoln'),
+        ('Mazda', 'Mazda'),
+        ('Mercedes-Benz', 'Mercedes-Benz'),
+        ('Mitsubishi', 'Mitsubishi'),
+        ('Nissan', 'Nissan'),
+        ('Porsche', 'Porsche'),
+        ('RAM', 'RAM'),
+        ('Subaru', 'Subaru'),
+        ('Tesla', 'Tesla'),
+        ('Toyota', 'Toyota'),
+        ('Volkswagen', 'Volkswagen'),
+        ('Volvo', 'Volvo'),
+        ]
+
+    BODY_STYLES = [
+        ('Cargo van', 'Cargo van'),
+        ('Convertible', 'Convertible'),
+        ('Coupe', 'Coupe'),
+        ('Hatchback', 'Hatchback'),
+        ('Minivan', 'Minivan'),
+        ('Passenger van', 'Passenger van'),
+        ('Pickup truck', 'Pickup truck'),
+        ('SUV', 'SUV'),
+        ('Sedan', 'Sedan'),
+        ('Wagon', 'Wagon'),
     ]
+
     image = models.ImageField()
-    year = models.DateField()
-    make = models.CharField(max_length=128)
+    year = models.IntegerField()
+    make = models.CharField(max_length=128, choices=MAKES)
     model = models.CharField(max_length=128)
-    body_style = models.CharField(max_length=128)
+    body_style = models.CharField(max_length=128, choices=BODY_STYLES)
     exterior_color = models.CharField(max_length=128)
     interior_color = models.CharField(max_length=128)
     drivetrain = models.CharField(max_length=128)
-    fuel_type = models.CharField(max_length=128, choices=FUEL_TYPES)
     transmission = models.CharField(max_length=128)
-    engine = models.CharField(max_length=128)
-    engine_displacement = models.FloatField()
+    engine = models.ForeignKey(Engine, on_delete=models.DO_NOTHING, related_name='standard')
+    compatible_engines = models.ManyToManyField(Engine, related_name='compatible')
     mileage = models.FloatField()
     price = models.FloatField()
     description = models.TextField()
