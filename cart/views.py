@@ -35,6 +35,10 @@ def cart_order(request):
     OrderFormSet = formset_factory(OrderedCarForm, extra=number)
     formset = OrderFormSet()
     form = OrderForm()
+
+    if request.method == 'POST':
+        print(request.POST)
+
     context['ordered'] = ordered
     context['number'] = number
     context['total'] = cart.get_total_price()
@@ -52,6 +56,7 @@ def cart_engine(request):
 
 
 def cart_features(request):
+    print(request.GET)
     price = float(request.GET.get('price'))
 
     if request.GET.get('checked') == 'true':

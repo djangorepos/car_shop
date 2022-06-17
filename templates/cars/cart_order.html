@@ -2,8 +2,8 @@
 {% block content %}
 <main>
   <form method="post">
-
-      <div class="albumpy-5 bg-light">
+  {% csrf_token %}
+    <div class="albumpy-5 bg-light">
         <div class="container">
            {% for car in ordered %}
               <div class="row border border mb-5">
@@ -39,35 +39,79 @@
                       {% endfor %}
                       {% for feature in car.extra_features.all %}
                        <label> {{ feature }} - ${{ feature.price }}
-                              <input type="checkbox" name="extra-features" value="{{ feature.id }}"
-                                     id="feature-box-{{ car.id }}">
+                              <input type="checkbox" class="feature-{{ car.id }}" name="extra-features" value="{{ car.id }} {{ feature.id }}">
                        </label><br>
                       {% endfor %}
-                       <h4 class="card-text">Price: <strong>$<span id="price-{{car.id}}">{{ car.price }}</span></strong></h4>
+                       <h4 class="card-text">Price: <strong>$<span id="price-{{ car.id }}">{{ car.price }}</span></strong></h4>
                     </div>
                   </div>
               </div>
            {% endfor %}
-        <h3 style="float:left">Total price: <strong>$<span id="total-price">0</span></strong></h3>
+        <h3 class="card-text">Total price: <strong>$<span id="total-price">0</span></strong></h3>
+        <input type="hidden" id="total-input" name="total-price" value="0">
+        <button type="submit" class="btn btn-dark">Confirm order!</button>
         </div>
       </div>
   </form>
 </main>
 <script>
-function total_price(){
-    var total = 0
-    for (let i = 1; i <= {{ number }}; i++) {
-    total += parseFloat($(`#price-${i}`).html())
+var total = 0
+function total_price(id, total){
+    total += parseFloat($(`#price-${id}`).html())
+    $("#total-price").html(total)
+    $("#total-input").val(total)
+    return total
 }
-$("#total-price").html(total)
-}
+
 $( document ).ready(function() {
-  total_price()
+      total = 0
+      {% for car in ordered %}
+      total = total_price({{ car.id }}, total)
+      {% endfor %}
 })
 </script>
 {% for car in ordered %}
 <script>
-    $("select").change(function () {
+$('input:checkbox.feature-{{ car.id }}').click(function () {
+        if($(this).is(":checked"))
+        {
+            $.ajax({
+                url:'{% url 'cart_features' %}',
+                data: {
+                  'price' : $("#price-{{ car.id }}").html(),
+                  'feature': $(this).val(),
+                  'checked': true,
+                },
+                success: function (data) {
+                  $("#price-{{ car.id }}").html(data)
+                    total = 0
+                    {% for car in ordered %}
+                    total = total_price({{ car.id }}, total)
+                    {% endfor %}
+                }
+            })
+        }
+        else {
+            $.ajax({
+                url:'{% url 'cart_features' %}',
+                data: {
+                  'price' : $("#price-{{ car.id }}").html(),
+                  'feature': $(this).val(),
+                },
+                success: function (data) {
+                  $("#price-{{ car.id }}").html(data)
+                    total = 0
+                    {% for car in ordered %}
+                    total = total_price({{ car.id }}, total)
+                    {% endfor %}
+                }
+            })
+        }
+
+})
+</script>
+<script>
+$("select").change(function () {
         $.ajax({
         url:'{% url 'cart_engine' %}',
         data: {
@@ -78,47 +122,13 @@ $( document ).ready(function() {
         },
         success: function (data) {
           $("#price-{{ car.id }}").html(data)
-          total_price()
+          total = 0
+          {% for car in ordered %}
+           total = total_price({{ car.id }}, total)
+           {% endfor %}
         }
       })
     })
-</script>
-<script>
-$("#feature-box-{{ car.id}}").click(function() {
-        if($(this).is(":checked"))
-        {
-            console.log($(this).val(), {{ car.id }})
-            $.ajax({
-                url:'{% url 'cart_features' %}',
-                data: {
-                  'price' : $("#price-{{ car.id }}").html(),
-                  'car': {{ car.id }},
-                  'feature': $(this).val(),
-                  'checked': true,
-                },
-                success: function (data) {
-                  $("#price-{{ car.id }}").html(data)
-                  total_price()
-                }
-            })
-        }
-        else {
-            console.log($(this).val(), {{ car.id }})
-            $.ajax({
-                url:'{% url 'cart_features' %}',
-                data: {
-                  'price' : $("#price-{{ car.id }}").html(),
-                  'car': {{ car.id }},
-                  'feature': $(this).val(),
-                },
-                success: function (data) {
-                  $("#price-{{ car.id }}").html(data)
-                  total_price()
-                }
-            })
-        }
-
-})
 </script>
 {% endfor %}
 {% endblock %}

@@ -21,7 +21,7 @@
               <p class="card-text"><strong>Interior color: </strong>{{ car.interior_color }}</p>
               <p class="card-text"><strong>Drivetrain: </strong>{{ car.drivetrain }}</p>
               <p class="card-text"><strong>Transmission: </strong>{{ car.transmission }}</p>
-              <p class="card-text"><strong>Standard Engine: </strong>{{ car.engine }} ({{ car.engine.fuel_type }}) - ${{ car.engine.price }}</p>
+              <p class="card-text"><strong>Standard Engine: </strong>{{ car.engine }} ({{ car.engine.fuel_type }}\{{ car.engine.power }} hp) - ${{ car.engine.price }}</p>
               <p class="card-text"><strong>Compatible Engines: </strong><ul>
               {% for engine in car.compatible_engines.all  %}
                 <li>{{ engine }} ({{ engine.fuel_type }}) - ${{ engine.price }}</li>
