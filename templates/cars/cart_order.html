@@ -1,0 +1,124 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+<main>
+  <form method="post">
+
+      <div class="albumpy-5 bg-light">
+        <div class="container">
+           {% for car in ordered %}
+              <div class="row border border mb-5">
+                <div class="col-lg-6">
+                  <div class="card shadow-sm">
+                      <img class="d-block w-100" src="{{ car.image.url }}" alt="First slide">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card-body">
+                      <h4 class="card-text">{{ car.make }} {{ car.model }}</h4>
+                      <p class="card-text"><strong>Year: </strong>{{ car.year }}</p>
+                      <p class="card-text"><strong>Body style: </strong>{{ car.body_style }}</p>
+                      <p class="card-text"><strong>Exterior color: </strong>{{ car.exterior_color }}</p>
+                      <p class="card-text"><strong>Interior color: </strong>{{ car.interior_color }}</p>
+                      <p class="card-text"><strong>Drivetrain: </strong>{{ car.drivetrain }}</p>
+                      <p class="card-text"><strong>Transmission: </strong>{{ car.transmission }}</p>
+                      <p class="card-text"><strong>Engine: </strong>
+                          <label for="id_form-{{ car.id }}-engine"></label>
+                          <select name="form-engine" id="id_form-{{ car.id }}-engine">
+                              <option value={{ car.engine.id }}>{{ car.engine }} - ${{ car.engine.price }}</option>
+                               {% for engine in car.compatible_engines.all %}
+                               <option value={{ engine.id }}>{{ engine }} - ${{ engine.price }}</option>
+                               {%  endfor %}
+                          </select></p>
+                      <p class="card-text"><strong>Fuel type: </strong>{{ car.engine.fuel_type }}</p>
+                      <p class="card-text"><strong>Mileage: </strong>{{ car.mileage |floatformat:3 }} mi.</p>
+                      <h4 class="card-text">Features: </h4>
+                      {% for feature in car.included_features.all %}
+                          <label> {{ feature }}
+                              <input  type="checkbox" name="included-features" value="{{ feature.id }}" checked disabled>
+                          </label><br>
+                      {% endfor %}
+                      {% for feature in car.extra_features.all %}
+                       <label> {{ feature }} - ${{ feature.price }}
+                              <input type="checkbox" name="extra-features" value="{{ feature.id }}"
+                                     id="feature-box-{{ car.id }}">
+                       </label><br>
+                      {% endfor %}
+                       <h4 class="card-text">Price: <strong>$<span id="price-{{car.id}}">{{ car.price }}</span></strong></h4>
+                    </div>
+                  </div>
+              </div>
+           {% endfor %}
+        <h3 style="float:left">Total price: <strong>$<span id="total-price">0</span></strong></h3>
+        </div>
+      </div>
+  </form>
+</main>
+<script>
+function total_price(){
+    var total = 0
+    for (let i = 1; i <= {{ number }}; i++) {
+    total += parseFloat($(`#price-${i}`).html())
+}
+$("#total-price").html(total)
+}
+$( document ).ready(function() {
+  total_price()
+})
+</script>
+{% for car in ordered %}
+<script>
+    $("select").change(function () {
+        $.ajax({
+        url:'{% url 'cart_engine' %}',
+        data: {
+          'price' : $("#price-{{ car.id }}").html(),
+          'car': {{ car.id }},
+          'car_engine': {{ car.engine.id }},
+          'selected_engine': $(this).val(),
+        },
+        success: function (data) {
+          $("#price-{{ car.id }}").html(data)
+          total_price()
+        }
+      })
+    })
+</script>
+<script>
+$("#feature-box-{{ car.id}}").click(function() {
+        if($(this).is(":checked"))
+        {
+            console.log($(this).val(), {{ car.id }})
+            $.ajax({
+                url:'{% url 'cart_features' %}',
+                data: {
+                  'price' : $("#price-{{ car.id }}").html(),
+                  'car': {{ car.id }},
+                  'feature': $(this).val(),
+                  'checked': true,
+                },
+                success: function (data) {
+                  $("#price-{{ car.id }}").html(data)
+                  total_price()
+                }
+            })
+        }
+        else {
+            console.log($(this).val(), {{ car.id }})
+            $.ajax({
+                url:'{% url 'cart_features' %}',
+                data: {
+                  'price' : $("#price-{{ car.id }}").html(),
+                  'car': {{ car.id }},
+                  'feature': $(this).val(),
+                },
+                success: function (data) {
+                  $("#price-{{ car.id }}").html(data)
+                  total_price()
+                }
+            })
+        }
+
+})
+</script>
+{% endfor %}
+{% endblock %}

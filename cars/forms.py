@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from cars.models import Car
+from cars.models import Car, OrderedCar, Order, Feature
 
 
 class FilterForm(ModelForm):
@@ -75,3 +75,29 @@ class FilterForm(ModelForm):
     class Meta:
         model = Car
         fields = ['make', 'body_style', 'fuel_type', 'model']
+
+
+class OrderedCarForm(ModelForm):
+    engine = forms.ChoiceField()
+    features = forms.ModelMultipleChoiceField(
+        queryset=Feature.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+
+
+    class Meta:
+        model = OrderedCar
+        fields = ['engine', 'features']
+
+
+class OrderForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        super().__init__()
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = Order
+        fields = ['first_name', 'last_name', 'email', 'phone']

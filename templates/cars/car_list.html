@@ -54,10 +54,10 @@
           'fuel_type': fuel_type,
         },
         success: function (data) {
-          $("#id_model").html(data);
+          $("#id_model").html(data)
         }
-      });
-    });
+      })
+    })
 
     function add_car(pk) {
          $.ajax({
@@ -65,7 +65,7 @@
             url:'/add/'+ pk,
             data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
             success: function() {
-            console.log('Added to cart');
+            console.log('Added to cart')
             window.location.reload()
             },
             });

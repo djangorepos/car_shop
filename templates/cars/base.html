@@ -82,7 +82,7 @@
           {% endfor %}
            <h4 class="text-white">Total: $ {{ total }}</h4>
             {% if number > 0 %}
-                <a href="#" class="btn btn-light">Buy now!</a>
+                <a href="{% url 'cart_order' %}" class="btn btn-light">Buy now!</a>
             {% endif %}
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
@@ -121,18 +121,17 @@
   </div>
 </footer>
 <script>
-    function remove_car(pk) {
-         $.ajax({
+function remove_car(pk) {
+    $.ajax({
             method:'POST',
             url:'/remove/'+ pk,
             data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
             success: function() {
-            console.log('Added to cart');
+            console.log('Removed from cart')
             window.location.reload()
             },
-            });
-    }
-
+            })
+}
 </script>
 </body>
 </html>

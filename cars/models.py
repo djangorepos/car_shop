@@ -1,4 +1,5 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Engine(models.Model):
@@ -65,7 +66,7 @@ class Car(models.Model):
         ('Toyota', 'Toyota'),
         ('Volkswagen', 'Volkswagen'),
         ('Volvo', 'Volvo'),
-        ]
+    ]
 
     BODY_STYLES = [
         ('Cargo van', 'Cargo van'),
@@ -90,7 +91,7 @@ class Car(models.Model):
     drivetrain = models.CharField(max_length=128)
     transmission = models.CharField(max_length=128)
     engine = models.ForeignKey(Engine, on_delete=models.DO_NOTHING, related_name='standard')
-    compatible_engines = models.ManyToManyField(Engine, related_name='compatible')
+    compatible_engines = models.ManyToManyField(Engine, blank=True, related_name='compatible')
     mileage = models.FloatField()
     price = models.FloatField()
     description = models.TextField()
@@ -108,3 +109,19 @@ class Car(models.Model):
 class Image(models.Model):
     image = models.ImageField(upload_to='gallery')
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='images')
+
+
+class OrderedCar(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='ordered_car')
+    engine = models.ForeignKey(Engine, on_delete=models.DO_NOTHING, related_name='selected_engine')
+    features = models.ManyToManyField(Feature, related_name='selected_features')
+    total = models.FloatField()
+
+
+class Order(models.Model):
+    first_name = models.CharField(max_length=128)
+    last_name = models.CharField(max_length=128)
+    email = models.EmailField()
+    phone = PhoneNumberField()
+    cars = models.ManyToManyField(OrderedCar, related_name='ordered_cars')
+    total = models.FloatField()

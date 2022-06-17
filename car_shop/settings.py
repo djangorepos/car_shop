@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cars',
     'cart',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
