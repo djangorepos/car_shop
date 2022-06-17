@@ -34,7 +34,8 @@
                       <h4 class="card-text">Features: </h4>
                       {% for feature in car.included_features.all %}
                           <label> {{ feature }}
-                              <input  type="checkbox" name="included-features" value="{{ feature.id }}" checked disabled>
+                              <input  type="checkbox" name="included-features" value="" checked disabled>
+                              <input type="hidden" name="included-features" value="{{ car.id }} {{ feature.id }}">
                           </label><br>
                       {% endfor %}
                       {% for feature in car.extra_features.all %}

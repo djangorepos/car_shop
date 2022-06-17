@@ -112,16 +112,17 @@ class Image(models.Model):
 
 
 class OrderedCar(models.Model):
+    session_key = models.CharField(max_length=128)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='ordered_car')
     engine = models.ForeignKey(Engine, on_delete=models.DO_NOTHING, related_name='selected_engine')
-    features = models.ManyToManyField(Feature, related_name='selected_features')
+    features = models.ManyToManyField(Feature, blank=True, related_name='selected_features')
     total = models.FloatField()
 
 
 class Order(models.Model):
+    session_key = models.CharField(max_length=128)
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     email = models.EmailField()
     phone = PhoneNumberField()
-    cars = models.ManyToManyField(OrderedCar, related_name='ordered_cars')
     total = models.FloatField()

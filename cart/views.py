@@ -1,10 +1,12 @@
+import random
+
 from django.forms import formset_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from cars.forms import OrderForm, OrderedCarForm
-from cars.models import Car, Feature, Engine
+from cars.models import Car, Feature, Engine, OrderedCar
 from .cart import Cart
 from .forms import CartAddProductForm
 
@@ -38,6 +40,35 @@ def cart_order(request):
 
     if request.method == 'POST':
         print(request.POST)
+        engine_list = request.POST.getlist('form-engine')
+        included_features = request.POST.getlist('included-features')
+        extra_features = request.POST.getlist('extra-features')
+        total_price = request.POST.get('total-price')
+        print(request.session.session_key)
+        i = 0
+        for car in ordered:
+            ordered_car = OrderedCar.objects.create(session_key=request.session.session_key,
+                                                    car=car,
+                                                    engine_id=engine_list[i],
+                                                    total=total_price)
+            print(included_features)
+            if included_features:
+                for feature in included_features:
+                    print(feature)
+                    splitted = feature.split(' ')
+                    print(splitted)
+                    if splitted[0] == str(car.id):
+                        ordered_car.features.add(Feature.objects.get(id=splitted[-1]))
+
+            print(extra_features)
+            if extra_features:
+                for feature in extra_features:
+                    print(feature)
+                    splitted = feature.split(' ')
+                    print(splitted)
+                    if splitted[0] == str(car.id):
+                        ordered_car.features.add(Feature.objects.get(id=splitted[-1]))
+            i += 1
 
     context['ordered'] = ordered
     context['number'] = number
