@@ -66,6 +66,7 @@ function total_price(id, total){
 
         if ((parseFloat(price) - parseInt(price)) === 0) {
          total += parseInt(price)
+         price = parseInt(price)
     }
     else {
         total += parseFloat(price)
