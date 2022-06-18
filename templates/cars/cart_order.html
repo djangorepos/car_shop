@@ -68,8 +68,7 @@ function total_price(id, total){
          total += price
     }
     else {
-        total += parseFloat(price)
-        total = Math.round10(total, -2)
+        total += parseFloat(price).toFixed(2)
     }
     $("#total-price").html(total)
     $(`#total-input-${id}`).val(price)
