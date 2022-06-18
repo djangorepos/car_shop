@@ -111,7 +111,7 @@ def cart_contact(request, order_number):
 
             order.save()
             cart.clear()
-            return redirect('car_list')
+            return redirect('cars_list')
 
     context['form'] = form
     context['ordered'] = ordered

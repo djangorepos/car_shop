@@ -32,10 +32,10 @@ def cars_list(request, pk=None):
             cars = cars.filter(model=request.POST.get('model'))
 
         context['cars'] = cars
-        return render(request, 'cars/car_list.html', context)
+        return render(request, 'cars/cars_list.html', context)
 
     if pk is None:
-        return render(request, 'cars/car_list.html', context)
+        return render(request, 'cars/cars_list.html', context)
 
     else:
         car = Car.objects.get(id=pk)
