@@ -38,7 +38,10 @@ class Cart(object):
             self.save()
 
     def get_total_price(self):
-        return sum(float(item['price']) for item in self.cart.values())
+        total = sum(float(item['price']) for item in self.cart.values())
+        if total == int(total):
+            total = int(total)
+        return total
 
     def get_items(self):
         return self.cart.keys()
