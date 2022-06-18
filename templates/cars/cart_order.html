@@ -30,7 +30,7 @@
                                {%  endfor %}
                           </select></p>
                       <p class="card-text"><strong>Fuel type: </strong>{{ car.engine.fuel_type }}</p>
-                      <p class="card-text"><strong>Mileage: </strong>{{ car.mileage |floatformat:3 }} mi.</p>
+                      <p class="card-text"><strong>Mileage: </strong>{{ car.mileage |floatformat }} mi.</p>
                       <h4 class="card-text">Features: </h4>
                       {% for feature in car.included_features.all %}
                           <label> {{ feature }}

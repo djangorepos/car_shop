@@ -27,7 +27,7 @@
                 <li>{{ engine }} ({{ engine.fuel_type }}\{{ engine.power }} hp) - ${{ engine.get_price }}</li>
               {% endfor %}
               </ul></p>
-              <p class="card-text"><strong>Mileage: </strong>{{ car.mileage |floatformat:3 }} mi.</p>
+              <p class="card-text"><strong>Mileage: </strong>{{ car.mileage |floatformat }} mi.</p>
               <p class="card-text"><strong>Start price: </strong>${{ car.get_price }}</p>
               <h2 class="card-text">Features: </h2>
               {% for feature in car.included_features.all %}
