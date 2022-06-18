@@ -50,7 +50,11 @@
               </div>
            {% endfor %}
         <h3 class="card-text">Total price: <strong>$<span id="total-price">0</span></strong></h3>
+        {% if number > 0 %}
         <button type="submit" class="btn btn-dark">Confirm order</button>
+        {% else %}
+        <a href="{% url 'car_list' %}" class="btn btn-dark">Return to main page</a>
+        {% endif %}
         </div>
       </div>
   </form>
