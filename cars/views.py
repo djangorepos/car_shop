@@ -6,7 +6,7 @@ from cars.models import Car, Image
 from cart.cart import Cart
 
 
-def car_list(request, pk=None):
+def cars_list(request, pk=None):
     context = {}
     cart = Cart(request)
     cars = Car.objects.filter(ordered=False)
@@ -44,7 +44,7 @@ def car_list(request, pk=None):
         return render(request, 'cars/car_detail.html', context)
 
 
-def car_search(request):
+def cars_search(request):
     cars = Car.objects.filter(ordered=False)
 
     if request.GET.get('make') != 'All makes':

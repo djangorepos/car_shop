@@ -47,7 +47,7 @@
       let fuel_type = $("#id_fuel_type").val();
 
         $.ajax({
-        url: '{% url 'car_search' %}',
+        url: '{% url 'cars_search' %}',
         data: {
           'make': make,
           'body_style': body_style,
