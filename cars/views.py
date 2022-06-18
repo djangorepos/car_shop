@@ -56,7 +56,7 @@ def cars_search(request):
     if request.GET.get('fuel_type') != 'All types':
         cars = cars.filter(engine__fuel_type=request.GET.get('fuel_type')).order_by('model')
 
-    data = "<option value='All styles'>All models</option>"
+    data = "<option value='All models'>All models</option>"
 
     for car in cars:
         data += f"<option value='{car.model}'>{car.model}</option>"
