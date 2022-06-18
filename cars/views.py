@@ -10,10 +10,13 @@ def cars_list(request, pk=None):
     context = {}
     cart = Cart(request)
     cars = Car.objects.filter(ordered=False)
+    total = cart.get_total_price()
+    if total == int(total):
+        total = int(total)
     context['cars'] = cars
     context['ordered'] = Car.objects.filter(id__in=cart.get_items())
     context['number'] = len(cart)
-    context['total'] = cart.get_total_price()
+    context['total'] = total
     context['form'] = FilterForm
 
     if request.method == 'POST':

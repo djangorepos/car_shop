@@ -76,8 +76,8 @@
         <div class="col-sm-8 col-md-7 py-4">
           <h4 class="text-white">Your order:</h4>
           {% for item in ordered %}
-              <h4 style="color:white">{{ item.make }} {{ item.model }} - $ {{ item.price }}</h4>
-              <a href="{% url 'car_detail' item.id %}"><img src="{{ item.image.url }}" height="100px"></a>
+              <h4 style="color:white">{{ item.make }} {{ item.model }} - $ {{ item.get_price }}</h4>
+              <a href="{% url 'car_detail' item.id %}"><img src="{{ item.image.url }}" height="100px" alt="car"></a>
               <button type="button" class="btn-close btn-close-white" aria-label="Close" onclick="remove_car({{ item.id }})"></button><br>
           {% endfor %}
            <h4 class="text-white">Total: $ {{ total }}</h4>

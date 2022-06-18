@@ -24,9 +24,9 @@
                       <p class="card-text"><strong>Engine: </strong>
                           <label for="id_form-{{ car.id }}-engine"></label>
                           <select name="form-engine" id="id_form-{{ car.id }}-engine">
-                              <option value={{ car.engine.id }}>{{ car.engine }} - ${{ car.engine.price }}</option>
+                              <option value={{ car.engine.id }}>{{ car.engine }} - ${{ car.engine.get_price }}</option>
                                {% for engine in car.compatible_engines.all %}
-                               <option value={{ engine.id }}>{{ engine }} - ${{ engine.price }}</option>
+                               <option value={{ engine.id }}>{{ engine }} - ${{ engine.get_price }}</option>
                                {%  endfor %}
                           </select></p>
                       <p class="card-text"><strong>Fuel type: </strong>{{ car.engine.fuel_type }}</p>
@@ -39,11 +39,11 @@
                           </label><br>
                       {% endfor %}
                       {% for feature in car.extra_features.all %}
-                       <label> {{ feature }} - ${{ feature.price }}
+                       <label> {{ feature }} - ${{ feature.get_price }}
                               <input type="checkbox" class="feature-{{ car.id }}" name="extra-features" value="{{ car.id }} {{ feature.id }}">
                        </label><br>
                       {% endfor %}
-                       <h4 class="card-text">Price: <strong>$<span id="price-{{ car.id }}">{{ car.price }}</span></strong></h4>
+                       <h4 class="card-text">Price: <strong>$<span id="price-{{ car.id }}">{{ car.get_price }}</span></strong></h4>
                        <input type="hidden" id="total-input-{{ car.id }}" name="total-price" value="0">
                     </div>
                   </div>

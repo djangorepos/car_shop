@@ -23,7 +23,7 @@
             <img src="{{ car.image.url }}" alt="Car">
             <div class="card-body">
               <h1 class="card-text">{{ car.year }} {{ car.make }} {{ car.model }}</h1>
-              <h2 class="card-text">Start price: ${{ car.price }}</h2>
+              <h2 class="card-text">Start price: ${{ car.get_price }}</h2>
               <p class="card-text">{{ car.description | truncatewords:20 }} </p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">

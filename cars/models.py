@@ -19,6 +19,11 @@ class Engine(models.Model):
     def __str__(self):
         return self.title
 
+    def get_price(self):
+        if self.price == int(self.price):
+            self.price = int(self.price)
+        return self.price
+
     class Meta:
         ordering = ('title',)
 
@@ -29,6 +34,11 @@ class Feature(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_price(self):
+        if self.price == int(self.price):
+            self.price = int(self.price)
+        return self.price
 
     class Meta:
         ordering = ('title',)
@@ -102,6 +112,11 @@ class Car(models.Model):
 
     def __str__(self):
         return str(self.make) + ' ' + str(self.model)
+
+    def get_price(self):
+        if self.price == int(self.price):
+            self.price = int(self.price)
+        return self.price
 
     class Meta:
         ordering = ['make']

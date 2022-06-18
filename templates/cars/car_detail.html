@@ -21,20 +21,20 @@
               <p class="card-text"><strong>Interior color: </strong>{{ car.interior_color }}</p>
               <p class="card-text"><strong>Drivetrain: </strong>{{ car.drivetrain }}</p>
               <p class="card-text"><strong>Transmission: </strong>{{ car.transmission }}</p>
-              <p class="card-text"><strong>Standard Engine: </strong>{{ car.engine }} ({{ car.engine.fuel_type }}\{{ car.engine.power }} hp) - ${{ car.engine.price }}</p>
+              <p class="card-text"><strong>Standard Engine: </strong>{{ car.engine }} ({{ car.engine.fuel_type }}\{{ car.engine.power }} hp) - ${{ car.engine.get_price }}</p>
               <p class="card-text"><strong>Compatible Engines: </strong><ul>
               {% for engine in car.compatible_engines.all  %}
-                <li>{{ engine }} ({{ engine.fuel_type }}\{{ engine.power }} hp) - ${{ engine.price }}</li>
+                <li>{{ engine }} ({{ engine.fuel_type }}\{{ engine.power }} hp) - ${{ engine.get_price }}</li>
               {% endfor %}
               </ul></p>
               <p class="card-text"><strong>Mileage: </strong>{{ car.mileage |floatformat:3 }} mi.</p>
-              <p class="card-text"><strong>Start price: </strong>${{ car.price }}</p>
+              <p class="card-text"><strong>Start price: </strong>${{ car.get_price }}</p>
               <h2 class="card-text">Features: </h2>
               {% for feature in car.included_features.all %}
               <p class="card-text"><strong>{{ feature }}:</strong> (included)</p>
               {% endfor %}
               {% for feature in car.extra_features.all %}
-              <p class="card-text"><strong>{{ feature }}:</strong> ${{ feature.price }}</p>
+              <p class="card-text"><strong>{{ feature }}:</strong> ${{ feature.get_price }}</p>
               {% endfor %}
               <h3 class="card-text">Description: </h3>
               <p class="card-text">{{ car.description }} </p>
