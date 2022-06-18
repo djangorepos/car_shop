@@ -104,7 +104,7 @@ class Car(models.Model):
         return str(self.make) + ' ' + str(self.model)
 
     class Meta:
-        ordering = ['date']
+        ordering = ['make']
 
 
 class Image(models.Model):
@@ -113,14 +113,14 @@ class Image(models.Model):
 
 
 class OrderedCar(models.Model):
-    session_key = models.CharField(max_length=128)
+    order_number = models.BigIntegerField(default=1)
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='ordered_car')
     engine = models.ForeignKey(Engine, on_delete=models.DO_NOTHING, related_name='selected_engine')
     features = models.ManyToManyField(Feature, blank=True, related_name='selected_features')
     total = models.FloatField(default=0)
 
     def __str__(self):
-        return self.session_key
+        return self.car.model
 
 
 class Order(models.Model):
@@ -128,6 +128,9 @@ class Order(models.Model):
     cars = models.ManyToManyField(OrderedCar, blank=True, related_name='ordered_cars')
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
-    email = models.EmailField()
+    email = models.EmailField(max_length=128)
     phone = PhoneNumberField()
     total = models.FloatField(default=0)
+
+    def __str__(self):
+        return str(self.number)

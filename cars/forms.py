@@ -68,7 +68,6 @@ class FilterForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)
-        super().__init__()
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 
@@ -84,7 +83,6 @@ class OrderedCarForm(ModelForm):
         widget=forms.CheckboxSelectMultiple
     )
 
-
     class Meta:
         model = OrderedCar
         fields = ['engine', 'features']
@@ -94,7 +92,6 @@ class OrderForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
-        super().__init__()
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 

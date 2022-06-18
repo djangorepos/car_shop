@@ -30,7 +30,7 @@ urlpatterns = [
     path('cart/engine', cart_engine, name='cart_engine'),
     path('cart/features', cart_features, name='cart_features'),
     path('order/', cart_order, name='cart_order'),
-    path('order/contacts', cart_contact, name='cart_contacts'),
+    path('order/<order_number>', cart_contact, name='cart_contact'),
     path('admin/', admin.site.urls),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

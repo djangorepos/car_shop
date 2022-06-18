@@ -9,6 +9,8 @@
                 <h1>Order № {{ order_number }}</h1>
                 <div class="col-form-label col-6">
                     {{ form }}
+                    {{ form.errors }}
+                    {{ form.non_field_errors }}
                 </div>
             </div>
         <button type="submit" class="btn btn-dark">Send</button>
