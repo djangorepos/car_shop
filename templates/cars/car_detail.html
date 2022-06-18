@@ -24,7 +24,7 @@
               <p class="card-text"><strong>Standard Engine: </strong>{{ car.engine }} ({{ car.engine.fuel_type }}\{{ car.engine.power }} hp) - ${{ car.engine.price }}</p>
               <p class="card-text"><strong>Compatible Engines: </strong><ul>
               {% for engine in car.compatible_engines.all  %}
-                <li>{{ engine }} ({{ engine.fuel_type }}) - ${{ engine.price }}</li>
+                <li>{{ engine }} ({{ engine.fuel_type }}\{{ engine.power }} hp) - ${{ engine.price }}</li>
               {% endfor %}
               </ul></p>
               <p class="card-text"><strong>Mileage: </strong>{{ car.mileage |floatformat:3 }} mi.</p>
