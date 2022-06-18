@@ -37,13 +37,11 @@ def cart_engine(request):
 
 
 def cart_features(request):
-    print(request.GET)
     price = float(request.GET.get('price'))
-
     if request.GET.get('checked') == 'true':
-        price += Feature.objects.get(id=request.GET.get('feature')).price
+        price += Feature.objects.get(id=request.GET.get('feature').split(' ')[-1]).price
     else:
-        price -= Feature.objects.get(id=request.GET.get('feature')).price
+        price -= Feature.objects.get(id=request.GET.get('feature').split(' ')[-1]).price
 
     return HttpResponse(price)
 
