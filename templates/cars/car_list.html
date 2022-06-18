@@ -42,22 +42,25 @@
   </div>
 <script>
     $("select").change(function () {
-      let make = $("#id_make").val();
-      let body_style = $("#id_body_style").val();
-      let fuel_type = $("#id_fuel_type").val();
+      if ($(this)[0].id !== 'id_model') {
+          let make = $("#id_make").val();
+          let body_style = $("#id_body_style").val();
+          let fuel_type = $("#id_fuel_type").val();
 
-        $.ajax({
-        url: '{% url 'cars_search' %}',
-        data: {
-          'make': make,
-          'body_style': body_style,
-          'fuel_type': fuel_type,
-        },
-        success: function (data) {
-          $("#id_model").html(data)
-        }
-      })
+            $.ajax({
+            url: '{% url 'cars_search' %}',
+            data: {
+              'make': make,
+              'body_style': body_style,
+              'fuel_type': fuel_type,
+            },
+            success: function (data) {
+              $("#id_model").html(data)
+            }
+          })
+      }
     })
+
 
     function add_car(pk) {
          $.ajax({
