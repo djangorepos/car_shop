@@ -63,15 +63,13 @@
 var total = 0
 function total_price(id, total){
     let price = $(`#price-${id}`).html()
-
-        if ((parseFloat(price) - parseInt(price)) === 0) {
-         total += parseInt(price)
+    if ((parseFloat(price) - parseInt(price)) === 0) {
          price = parseInt(price)
+         total += price
     }
     else {
         total += parseFloat(price)
     }
-
     $("#total-price").html(total)
     $(`#total-input-${id}`).val(price)
     return total

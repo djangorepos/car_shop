@@ -29,19 +29,23 @@ def cart_remove(request, pk):
 
 
 def cart_engine(request):
-    price = Car.objects.get(id=request.GET.get('car')).price
-    price -= Engine.objects.get(id=request.GET.get('car_engine')).price
-    price += Engine.objects.get(id=request.GET.get('selected_engine')).price
+    price = Car.objects.get(id=request.GET.get('car')).get_price
+    price -= Engine.objects.get(id=request.GET.get('car_engine')).get_price
+    price += Engine.objects.get(id=request.GET.get('selected_engine')).get_price
 
     return HttpResponse(price)
 
 
 def cart_features(request):
     price = float(request.GET.get('price'))
+
     if request.GET.get('checked') == 'true':
-        price += Feature.objects.get(id=request.GET.get('feature').split(' ')[-1]).price
+        price += Feature.objects.get(id=request.GET.get('feature').split(' ')[-1]).get_price
     else:
-        price -= Feature.objects.get(id=request.GET.get('feature').split(' ')[-1]).price
+        price -= Feature.objects.get(id=request.GET.get('feature').split(' ')[-1]).get_price
+
+    if price == int(price):
+        price = int(price)
 
     return HttpResponse(price)
 
