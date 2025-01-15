@@ -5,7 +5,8 @@ gunicorn==23.0.0
 munch==4.0.0
 phonenumbers==8.13.52
 Pillow==11.1.0
-psycopg2==2.9.10
+psycopg2-binary==2.9.10
+setuptools==75.8.0
 six==1.17.0
 sqlparse==0.5.3
 tzdata==2024.2

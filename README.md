@@ -8,4 +8,7 @@ Deployment:
 - docker exec -it  </your container web/> python manage.py collectstatic --noinput
 - docker exec -it  </your container web/> python manage.py makemigrations
 - docker exec -it  </your container web/> python manage.py migrate
+- docker exec -it  </your container web/> python manage.py createsuperuser
 - docker-compose up
+
+Now you can add cars from django admin panel.
